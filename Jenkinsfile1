@@ -1,0 +1,29 @@
+pipeline {
+	agent any
+	stages {
+	    stage('Build') {
+	        steps {
+	            echo 'Building..'
+	        }
+	    }
+		stage('Test') {
+			steps {
+				echo 'Testing..'
+			}
+		}
+		stage('Deploy') {
+			steps {
+				echo 'Deploying....'
+			}
+		}
+	}
+	post {
+		success {
+			script {
+				for (commitFile in pullRequest.files) {
+					echo "SHA: ${commitFile.sha} File Name: ${commitFile.filename} Status: ${commitFile.status}"
+				}
+			}
+		}
+	}
+}
