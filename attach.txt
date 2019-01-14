@@ -1,0 +1,5 @@
+payload+="{\"body\":\""
+payload+=$2
+payload+="\"}"
+ 
+curl -k -H "Authorization: token OATH_TOKEN" -H "Content-Type: application/json" -d "$payload" https://GITHUB_HOST:GITHUB_PORT/api/v3/repos/ORGANISATION/REPOSITORY/issues/$1/comments
