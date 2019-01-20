@@ -1,0 +1,23 @@
+#安装wget库
+sudo yum install wget
+#进入usr/local/src目录下
+cd /usr/local/src
+#获取JDK1.8包                                                                                           
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz
+#解压jdk-8u161-linux-x64.tar.gz
+tar -zxvf jdk-8u161-linux-x64.tar.gz
+#重命名为JDK8
+mv jdk1.8.0_161 jdk8
+#配置环境变量
+sudo vim /etc/profile #打开环境变量配置文件
+#增加下面内容到该文件最后
+export JAVA_HOME=/usr/local/jdk8
+export PATH=$JAVA_HOME/bin:$PATH  
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar 
+#使环境生效
+source /etc/profile
+
+作者：StrongZhao
+链接：https://www.jianshu.com/p/49c711bd424d
+來源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
