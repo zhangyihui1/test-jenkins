@@ -1,0 +1,17 @@
+{
+  "base": {
+    "appsId": 24477,
+    "installationId": 628352,
+    "pemFileName": "jenkins-ci-base.pem"
+  },
+  "conference": {
+    "appsId": 24478,
+    "installationId": 628359,
+    "pemFileName": "jenkins-ci-conference.pem"
+  },
+  "p2p": {
+    "appsId": 24479,
+    "installationId": 628434,
+    "pemFileName": "jenkins-ci-p2p.pem"
+  }
+}
