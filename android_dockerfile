@@ -1,0 +1,34 @@
+
+FROM ubuntu:16.04   #这个是导入我们需要的打包环境
+MAINTAINER feign "fuyang@thinker.vc" #这个类似于作者
+#下面我们给我们的打包环境安装了一些列后面会用到的包
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends  openjdk-8-jdk \
+      libc6-i386 \
+      lib32stdc++6 \
+      lib32gcc1 \
+      lib32ncurses5 \
+      lib32z1 \
+    unzip curl && \
+    apt-get clean
+
+ENV USR_LOCAL /usr/local 
+RUN mkdir -p ${USR_LOCAL}/android-sdk-linux /opt/sdk    
+ADD tools ${USR_LOCAL}/android-sdk-linux/tools
+#配置容器内一些列变量
+ENV ANDROID_HOME ${USR_LOCAL}/android-sdk-linux
+ENV ANDROID_SDK ${USR_LOCAL}/android-sdk-linux
+ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+RUN echo "export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools" >> /etc/profile
+#安装Android27的tools这个我们已经下载好了并且在上面已经ADD进来了
+ENV ANDROID_SDK_COMPONENTS tools,platform-tools,extra-android-m2repository,extra-google-m2repository,android-27,build-tools-27.0.2,build-tools-27.0.3
+RUN yes | /usr/local/android-sdk-linux/tools/bin/sdkmanager --licenses  
+RUN echo y | /usr/local/android-sdk-linux/tools/bin/sdkmanager--proxy=http --proxy_host=child-prc.intel.com --proxy_port=913 --include_obsolete "platform-tools" "platforms;android-26" "platforms;android-21" "build-tools;28.0.3" "extra-android-m2repository" "extra-google-m2repository"
+
+WORKDIR /opt/sdk  #开始制作我们的镜像 这里有一点需要注意，“yes |”这个命令做好加上 我的Mac不加会报 licenses无权限，这个Google官网已经给出了解决方案
+CMD ["./gradlew","assemblerelease"]  # 我们的打包命令
+--------------------- 
+作者：Yang_Farley 
+来源：CSDN 
+原文：https://blog.csdn.net/farley119/article/details/82584974 
+版权声明：本文为博主原创文章，转载请附上博文链接！
