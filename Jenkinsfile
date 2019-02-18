@@ -15,8 +15,9 @@ pipeline {
             steps {
                 script{
                     withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                        sh "${env.starMcuScriptPath} --package-url ${env.mcuPackageUrl} --package-name \
-                        mcu-all-bin-v{data}.tgz  --base-dir ${env.mcuServerBasePath} --git-branch ${GIT_BRANCH}"
+                        sh "${env.startServerScript} --package-url ${env.mcuPackageUrl} --package-name \
+                        mcu-all-bin-v{data}.tgz  --base-dir ${env.mcuServerBasePath} --git-branch ${GIT_BRANCH} --owner zhangyihui1 
+                        --repo test-jenkins --commit-id ${GIT_COMMIT} --github-script /home/webrtctest3/zyh_github_test/github_checks/push_result.py"
                     }
                 }
             }
@@ -30,7 +31,7 @@ pipeline {
             steps{
                 script{
                     withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                        sh "${env.startP2PServerScriptPath} --server-path ${env.p2pServerPath}"
+                        sh "${env.startServerScript} --server-path ${env.p2pServerPath}" --owner zhangyihui1 --repo test-jenkins --commit-id ${GIT_COMMIT} --github-script /home/webrtctest3/zyh_github_test/github_checks/push_result.py"
                         }    
                 }
             }
